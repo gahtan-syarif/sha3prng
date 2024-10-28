@@ -5,7 +5,7 @@ This is a python implementation of a PRNG constructed purely using SHA3-512 hash
 
 # Usage
 ```python
-import sha3prng.prng
+import sha3prng
 
 # Initialize PRNG with a random seed.
 prng_instance = sha3prng.prng()
