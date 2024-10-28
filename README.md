@@ -25,10 +25,10 @@ random_float = prng_instance.randfloat(0.0, 5.0)
 # Generate a 15-element list of random floating-point numbers between 5.5 and 18.0 (inclusive)
 random_float_list = prng_instance.randfloat(5.5, 18.0, 15)
 
-# Add random entropy to the prng in case backwards resistance is needed.
+# Add random entropy to the PRNG in case backwards resistance is needed.
 prng_instance.add_entropy()
 
-# Add chosen entropy (512-bit integer or bytes object) to the prng in case backwards resistance is needed.
+# Add chosen entropy (512-bit integer or bytes object) to the PRNG in case backwards resistance is needed.
 prng_instance.add_entropy(619)
 
 ```
