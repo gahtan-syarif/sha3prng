@@ -101,3 +101,4 @@ class prng:
         if count == None:
             return ((self.__generate_random_number() / self.__randmax) * (upper_bound - lower_bound) + lower_bound) * 1.0
         return [((self.__generate_random_number() / self.__randmax) * (upper_bound - lower_bound) + lower_bound) * 1.0 for _ in range(count)]
+
