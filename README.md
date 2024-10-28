@@ -1,4 +1,4 @@
-*Disclaimer: im neither a cryptographer nor a security expert so i can't vouch for the security of this in cryptographic/security applications.*
+*Disclaimer: im neither a cryptographer nor a security expert so i can't vouch for the security of using this in cryptographic/security applications.*
 
 # sha3prng
 This is a python implementation of a PRNG constructed purely using SHA3-512 hash function. Since the output of a high-quality secure hash function such as SHA-3 is inditinguishable from true randomness, it can be used for generating high quality random numbers.
