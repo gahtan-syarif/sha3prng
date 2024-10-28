@@ -22,7 +22,7 @@ class prng:
         self.__randmax = 2**512 - 1
         self.__counter_max = 2**256 - 1
     
-    def __generate_random_number(self):
+    def __generate_random_bytes(self):
         # Compute the SHA-3-512 hash
         hash_output = hashlib.sha3_512(self.__key + self.__padding + self.__counter.to_bytes(32, byteorder='big') + b'prng_stream').digest()
         
@@ -31,7 +31,10 @@ class prng:
         if self.__counter > self.__counter_max:
             self.__counter = 0
         
-        return int.from_bytes(hash_output, byteorder='big')
+        return hash_output
+        
+    def __generate_random_number(self):
+        return int.from_bytes(self.__generate_random_bytes(), byteorder='big')
         
     def add_entropy(self, entropy = None):
         if entropy is None:
@@ -49,6 +52,16 @@ class prng:
         else:
             raise TypeError("Entropy must be a bytes object or a non-negative integer.")
             
+    def randbytes(self, bytelength):
+        if not isinstance(bytelength, int) or bytelength <= 0:
+            raise ValueError("bytelength must be a non-negative integer")
+            
+        number_of_calls = (bytelength + 63) // 64  # This effectively rounds up
+        temp = b''
+        for i in range(number_of_calls):
+            temp = temp + self.__generate_random_bytes()
+        return temp[:bytelength]
+        
     def randint(self, lower_bound = 0, upper_bound = (2**512 - 1), count = None):
         if not isinstance(lower_bound, int) or not isinstance(upper_bound, int):
             raise TypeError("Lower and upper bounds must be integers.")
