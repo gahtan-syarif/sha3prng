@@ -3,7 +3,7 @@
 # sha3prng
 This is a Python implementation of a 512-bit PRNG constructed purely using the SHA3-512 hash function. Since the output of a high-quality secure hash function such as SHA-3 is indistinguishable from true randomness, it can be used for generating random numbers with higher quality randomness compared to conventional PRNGs such as Mersenne Twister, PCG, xoshiro/xoroshiro, etc.
 
-# Usage
+# Example/Usage
 ```python
 import sha3prng
 
@@ -24,6 +24,9 @@ random_float = prng_instance.randfloat(0.0, 5.0)
 
 # Generate a 15-element list of random floating-point numbers between 5.5 and 18.0 (inclusive)
 random_float_list = prng_instance.randfloat(5.5, 18.0, 15)
+
+# Generate a random bytes object with length of 74 bytes
+random_bytes = prng_instance.randbytes(74)
 
 # Add random entropy to the PRNG in case backwards resistance is needed.
 prng_instance.add_entropy()
