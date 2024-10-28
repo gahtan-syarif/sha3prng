@@ -52,14 +52,14 @@ class prng:
         else:
             raise TypeError("Entropy must be a bytes object or a non-negative integer.")
             
-    def randint(self, lower_bound = 0, upper_bound = (2**512 - 1), count = 1):
+    def randint(self, lower_bound = 0, upper_bound = (2**512 - 1), count = None):
         if not isinstance(lower_bound, int) or not isinstance(upper_bound, int):
             raise TypeError("Lower and upper bounds must be integers.")
-        if not isinstance(count, int):
+        if count is not None and not isinstance(count, int):
             raise TypeError("Count must be an integer.")
         if lower_bound >= upper_bound:
             raise ValueError("Lower bound must be less than upper bound.")
-        if count <= 0:
+        if count is not None and count <= 0:
             raise ValueError("Count must be a positive integer.")
         if upper_bound - lower_bound > self.__randmax:
             raise ValueError("Output range is too large.")
@@ -72,22 +72,22 @@ class prng:
                 x = self.__generate_random_number()
             return (x % range_size + lower_bound)
         
-        if count == 1:
+        if count == None:
             return generate_randint()
         return [generate_randint() for _ in range(count)]
         
-    def randfloat(self, lower_bound = 0.0, upper_bound = 1.0, count = 1):
+    def randfloat(self, lower_bound = 0.0, upper_bound = 1.0, count = None):
         if not isinstance(lower_bound, (int, float)) or not isinstance(upper_bound, (int, float)):
             raise TypeError("Lower and upper bounds must be numbers.")
-        if not isinstance(count, int):
+        if count is not None and not isinstance(count, int):
             raise TypeError("Count must be an integer.")
         if lower_bound >= upper_bound:
             raise ValueError("Lower bound must be less than upper bound.")
-        if count <= 0:
+        if count is not None and count <= 0:
             raise ValueError("Count must be a positive integer.")
         if upper_bound - lower_bound > self.__randmax:
             raise ValueError("Output range is too large.")
             
-        if count == 1:
+        if count == None:
             return ((self.__generate_random_number() / self.__randmax) * (upper_bound - lower_bound) + lower_bound) * 1.0
         return [((self.__generate_random_number() / self.__randmax) * (upper_bound - lower_bound) + lower_bound) * 1.0 for _ in range(count)]
