@@ -12,7 +12,7 @@ class prng:
             self.__key = seed
         elif isinstance(seed, int):
             if seed > (2**512 - 1) or seed < 0:
-                raise ValueError("Seed must be a positive integer not greater than 2^512-1.")
+                raise ValueError("Seed must be a non-negative integer not greater than 2^512-1.")
             self.__key = int(seed).to_bytes(64, byteorder='big')
         else:
             raise TypeError("Seed must be a bytes object or a non-negative integer.")
@@ -34,19 +34,16 @@ class prng:
         return int.from_bytes(hash_output, byteorder='big')
         
     def add_entropy(self, entropy = None):
-        """Add entropy to the PRNG for forward security."""
         if entropy is None:
             generated_entropy = secrets.token_bytes(64)
             self.__key = hashlib.sha3_512(self.__key + self.__padding + generated_entropy + self.__padding + b'prng_entropy').digest()
         elif isinstance(entropy, bytes):
             if len(entropy) != 64:
                 raise ValueError("Bytes object must be 512-bits (64 bytes) long for the external entropy.")
-            # Mix the current key with the new entropy
             self.__key = hashlib.sha3_512(self.__key + self.__padding + entropy + self.__padding + b'prng_entropy').digest()
         elif isinstance(entropy, int):
-            # Convert integer to bytes and mix
             if entropy > (2**512 - 1) or entropy < 0:
-                raise ValueError("Entropy must be a positive integer not greater than 2^512-1.")
+                raise ValueError("Entropy must be a non-negative integer not greater than 2^512-1.")
             entropy_bytes = int(entropy).to_bytes(64, byteorder='big')
             self.__key = hashlib.sha3_512(self.__key + self.__padding + entropy_bytes + self.__padding + b'prng_entropy').digest()
         else:
