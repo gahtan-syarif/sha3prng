@@ -22,8 +22,8 @@ random_int_list = prng_instance.randint(-5, 10, 50)
 # Generate a random floating-point number between 0.0 and 5.0 (inclusive)
 random_float = prng_instance.randfloat(0.0, 5.0)
 
-# Generate a 15-element list of random floating-point numbers between 5.5 and 18.0 (inclusive)
-random_float_list = prng_instance.randfloat(5.5, 18.0, 15)
+# Generate a 15-element list of random floating-point numbers between 5.3 and 18.0 (inclusive)
+random_float_list = prng_instance.randfloat(5.3, 18.0, 15)
 
 # Generate a random bytes object with length of 74 bytes
 random_bytes = prng_instance.randbytes(74)
