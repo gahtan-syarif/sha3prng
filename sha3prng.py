@@ -21,6 +21,7 @@ class prng:
         self.__padding = b'\x00' * 8
         self.__randmax = 2**512 - 1
         self.__counter_max = 2**256 - 1
+        self.__max_steps = 2**128
     
     def __generate_random_bytes(self):
         # Compute the SHA-3-512 hash
@@ -35,6 +36,17 @@ class prng:
         
     def __generate_random_number(self):
         return int.from_bytes(self.__generate_random_bytes(), byteorder='big')
+        
+    def advance(self, steps):
+        if not isinstance(steps, int) or steps <= 0:
+            raise ValueError("Number of steps to advance must be a non-negative integer.")
+        if steps > self.__max_steps:
+            raise ValueError("Number of steps is too large. Maximum is 2^128 steps.")
+            
+        self.__counter = (self.__counter + steps) % (self.__randmax + 1)
+        
+    def jumped(self):
+        self.__counter = (self.__counter + self.__max_steps) % (self.__randmax + 1)
         
     def add_entropy(self, entropy = None):
         if entropy is None:
@@ -54,7 +66,7 @@ class prng:
             
     def randbytes(self, bytelength):
         if not isinstance(bytelength, int) or bytelength <= 0:
-            raise ValueError("bytelength must be a non-negative integer")
+            raise ValueError("bytelength must be a non-negative integer.")
             
         number_of_calls = (bytelength + 63) // 64  # This effectively rounds up
         temp = b''
