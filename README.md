@@ -44,4 +44,5 @@ prng_instance.add_entropy()
 prng_instance.add_entropy(619)
 
 ```
+*Requires Python version >= 3.6*
 
