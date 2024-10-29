@@ -1,5 +1,6 @@
 import hashlib
 import secrets
+import copy
 
 class prng:
     def __init__(self, seed = None):
@@ -22,6 +23,9 @@ class prng:
         self.__randmax = 2**512 - 1
         self.__counter_max = 2**256 - 1
         self.__max_steps = 2**128
+        
+    def duplicate(self):
+        return copy.deepcopy(self)
     
     def __generate_random_bytes(self):
         # Compute the SHA-3-512 hash
