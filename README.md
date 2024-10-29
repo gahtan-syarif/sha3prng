@@ -34,10 +34,10 @@ prng_instance.advance(1234567)
 # Advance the PRNG state by 2**128 steps. Used for parallel computation.
 prng_instance.jumped() # Same as prng_instance.advance(2**128)
 
-# Add random entropy to the PRNG in case backwards resistance is needed.
+# Add random entropy to scramble the PRNG state in case backwards resistance is needed.
 prng_instance.add_entropy()
 
-# Add chosen entropy (512-bit integer or bytes object) to the PRNG in case backwards resistance is needed.
+# Add chosen entropy (512-bit integer or bytes object) to scramble the PRNG state in case backwards resistance is needed.
 prng_instance.add_entropy(619)
 
 ```
