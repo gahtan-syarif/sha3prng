@@ -1,7 +1,7 @@
 *Disclaimer: I am neither a cryptographer nor a security expert, so I cannot vouch for the security of using this implementation in cryptographic or security-sensitive applications. Please use at your own discretion and consider consulting a qualified expert for such use cases.*
 
 # sha3prng
-This is a Python implementation of a 512-bit PRNG constructed purely using the SHA3-512 hash function. Since the output of a high-quality secure hash function such as SHA-3 is indistinguishable from true randomness, it can be used for generating random numbers with higher quality randomness compared to conventional PRNGs such as Mersenne Twister, PCG, xoshiro/xoroshiro, etc.
+This is a Python implementation of a 512-bit PRNG constructed purely using the SHA3-512 hash function. Since the output of a high-quality secure hash function such as SHA-3 is indistinguishable from true randomness, it can be used for generating random numbers with higher quality randomness compared to conventional PRNGs such as LCG, Mersenne Twister, PCG, xoshiro/xoroshiro, etc.
 
 # Example/Usage
 ```python
