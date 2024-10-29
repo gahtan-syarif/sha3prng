@@ -44,9 +44,11 @@ class prng:
             raise ValueError("Number of steps is too large. Maximum is 2^128 steps.")
             
         self.__counter = (self.__counter + steps) % (self.__randmax + 1)
+        return self
         
     def jumped(self):
         self.__counter = (self.__counter + self.__max_steps) % (self.__randmax + 1)
+        return self
         
     def add_entropy(self, entropy = None):
         if entropy is None:
@@ -63,6 +65,7 @@ class prng:
             self.__key = hashlib.sha3_512(self.__key + self.__padding + entropy_bytes + self.__padding + b'prng_entropy').digest()
         else:
             raise TypeError("Entropy must be a bytes object or a non-negative integer.")
+        return self
             
     def randbytes(self, bytelength):
         if not isinstance(bytelength, int) or bytelength <= 0:
