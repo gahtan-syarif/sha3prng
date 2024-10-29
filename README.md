@@ -28,10 +28,10 @@ random_float_list = prng_instance.randfloat(5.3, 18.0, 15)
 # Generate a random bytes object with length of 74 bytes
 random_bytes = prng_instance.randbytes(74)
 
-# Add random entropy to the PRNG in case backwards resistance is needed.
+# Add random entropy to scramble the PRNG state in case backwards resistance is needed.
 prng_instance.add_entropy()
 
-# Add chosen entropy (512-bit integer or bytes object) to the PRNG in case backwards resistance is needed.
+# Add chosen entropy (512-bit integer or bytes object) to scramble the PRNG state in case backwards resistance is needed.
 prng_instance.add_entropy(619)
 
 ```
