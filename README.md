@@ -34,9 +34,16 @@ prng_instance_duplicate = prng_instance.duplicate()
 # Advance the PRNG state by 1234567 steps.
 prng_instance.advance(1234567)
 
-# Advance the PRNG state by 2**128 steps. Used for parallel computation.
+# Advance the PRNG state by 2**128 steps.
 prng_instance.jumped() # Same as prng_instance.advance(2**128)
 
+# Create multiple children PRNG from a base PRNG for parallel random number generation.
+parent_prng = prng_instance.duplicate()
+num_of_workers = 1000
+children_prng = []
+for _ in range(num_of_workers):
+    children_prng.append(parent_prng.jumped().duplicate()) 
+    
 # Add random entropy to scramble the PRNG state in case backwards resistance is needed.
 prng_instance.add_entropy()
 
