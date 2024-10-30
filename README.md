@@ -44,10 +44,10 @@ children_prng = []
 for _ in range(num_of_workers):
     children_prng.append(parent_prng.jumped().duplicate()) 
     
-# Add random entropy to scramble the PRNG state in case backwards resistance is needed.
+# Add random entropy to scramble the PRNG state in case backtracking resistance is needed.
 prng_instance.add_entropy()
 
-# Add chosen entropy (512-bit integer or bytes object) to scramble the PRNG state in case backwards resistance is needed.
+# Add chosen entropy (512-bit integer or bytes object) to scramble the PRNG state in case backtracking resistance is needed.
 prng_instance.add_entropy(619)
 
 ```
