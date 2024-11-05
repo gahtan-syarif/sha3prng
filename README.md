@@ -47,7 +47,7 @@ for _ in range(num_of_workers):
 # Add random entropy to scramble the PRNG state in case backtracking resistance is needed.
 prng_instance.add_entropy()
 
-# Add chosen entropy (512-bit integer or bytes object) to scramble the PRNG state in case backtracking resistance is needed.
+# Add user-specified entropy (512-bit integer or bytes object) to scramble the PRNG state in case backtracking resistance is needed.
 prng_instance.add_entropy(619)
 
 ```
