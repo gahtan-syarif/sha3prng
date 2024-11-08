@@ -28,10 +28,10 @@ random_float_list = prng_instance.randfloat(5.3, 18.0, 15)
 # Generate a random bytes object with length of 74 bytes.
 random_bytes = prng_instance.randbytes(74)
 
-# Create a duplicate of the PRNG object (deepcopy)
+# Create a duplicate of the PRNG object (deepcopy).
 prng_instance_duplicate = prng_instance.duplicate()
 
-# Return the current counter value of the PRNG instance
+# Return the current counter value of the PRNG instance.
 current_counter = prng_instance.get_counter()
 
 # Advance the PRNG state by 1234567 steps.
