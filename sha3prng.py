@@ -4,23 +4,22 @@ import copy
 
 class prng:
     def __init__(self, seed = None):
-        self._key = b'\x00' * 64
+        self._key = b'\x00' * 32
         if seed is None:
-            self.__key = secrets.token_bytes(64)
+            self.__key = secrets.token_bytes(32)
         elif isinstance(seed, bytes):
-            if len(seed) != 64:
-                raise ValueError("Bytes object must be 512-bits (64 bytes) long for the seed.")
+            if len(seed) != 32:
+                raise ValueError("Bytes object must be 256-bits (32 bytes) long for the seed.")
             self.__key = seed
         elif isinstance(seed, int):
-            if seed > (2**512 - 1) or seed < 0:
-                raise ValueError("Seed must be a non-negative integer not greater than 2^512-1.")
-            self.__key = int(seed).to_bytes(64, byteorder='big')
+            if seed > (2**256 - 1) or seed < 0:
+                raise ValueError("Seed must be a non-negative integer not greater than 2^256-1.")
+            self.__key = int(seed).to_bytes(32, byteorder='big')
         else:
             raise TypeError("Seed must be a bytes object or a non-negative integer.")
             
         self.__counter = 0
-        self.__padding = b'\x00' * 8
-        self.__randmax = 2**512 - 1
+        self.__randmax = 2**256 - 1
         self.__counter_max = 2**256 - 1
         self.__max_steps = 2**128
         
@@ -28,8 +27,8 @@ class prng:
         return copy.deepcopy(self)
     
     def __generate_random_bytes(self):
-        # Compute the SHA-3-512 hash
-        hash_output = hashlib.sha3_512(self.__key + self.__padding + self.__counter.to_bytes(32, byteorder='big') + b'prng_stream').digest()
+        # Compute the SHA-3-256 hash
+        hash_output = hashlib.sha3_256(b'prng_stream' + self.__key + self.__counter.to_bytes(32, byteorder='big')).digest()
         
         # Increment the counter
         self.__counter += 1
@@ -56,17 +55,17 @@ class prng:
         
     def add_entropy(self, entropy = None):
         if entropy is None:
-            generated_entropy = secrets.token_bytes(64)
-            self.__key = hashlib.sha3_512(self.__key + self.__padding + generated_entropy + self.__padding + b'prng_entropy').digest()
+            generated_entropy = secrets.token_bytes(32)
+            self.__key = hashlib.sha3_256(b'prng_entropy' + self.__key + generated_entropy).digest()
         elif isinstance(entropy, bytes):
-            if len(entropy) != 64:
-                raise ValueError("Bytes object must be 512-bits (64 bytes) long for the external entropy.")
-            self.__key = hashlib.sha3_512(self.__key + self.__padding + entropy + self.__padding + b'prng_entropy').digest()
+            if len(entropy) != 32:
+                raise ValueError("Bytes object must be 256-bits (32 bytes) long for the external entropy.")
+            self.__key = hashlib.sha3_256(b'prng_entropy' + self.__key + entropy).digest()
         elif isinstance(entropy, int):
-            if entropy > (2**512 - 1) or entropy < 0:
-                raise ValueError("Entropy must be a non-negative integer not greater than 2^512-1.")
-            entropy_bytes = int(entropy).to_bytes(64, byteorder='big')
-            self.__key = hashlib.sha3_512(self.__key + self.__padding + entropy_bytes + self.__padding + b'prng_entropy').digest()
+            if entropy > (2**256 - 1) or entropy < 0:
+                raise ValueError("Entropy must be a non-negative integer not greater than 2^256-1.")
+            entropy_bytes = int(entropy).to_bytes(32, byteorder='big')
+            self.__key = hashlib.sha3_256(b'prng_entropy' + self.__key + entropy_bytes).digest()
         else:
             raise TypeError("Entropy must be a bytes object or a non-negative integer.")
         return self
@@ -75,7 +74,7 @@ class prng:
         if not isinstance(bytelength, int) or bytelength <= 0:
             raise ValueError("bytelength must be a non-negative integer.")
             
-        number_of_calls = (bytelength + 63) // 64  # This effectively rounds up
+        number_of_calls = (bytelength + 31) // 32  # This effectively rounds up
         byte_chunks = []  # Use a list to collect chunks
         
         for i in range(number_of_calls):
@@ -83,7 +82,7 @@ class prng:
         
         return b''.join(byte_chunks)[:bytelength]  # Join chunks at once
         
-    def randint(self, lower_bound = 0, upper_bound = (2**512 - 1), count = None):
+    def randint(self, lower_bound = 0, upper_bound = (2**256 - 1), count = None):
         if not isinstance(lower_bound, int) or not isinstance(upper_bound, int):
             raise TypeError("Lower and upper bounds must be integers.")
         if count is not None and not isinstance(count, int):
