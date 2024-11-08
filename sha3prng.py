@@ -69,6 +69,9 @@ class prng:
         else:
             raise TypeError("Entropy must be a bytes object or a non-negative integer.")
         return self
+        
+    def get_counter(self):
+        return self.__counter
             
     def randbytes(self, bytelength):
         if not isinstance(bytelength, int) or bytelength <= 0:
