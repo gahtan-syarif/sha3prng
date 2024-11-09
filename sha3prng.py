@@ -2,7 +2,7 @@ import hashlib
 import secrets
 import copy
 
-class prng:
+class sha3prng:
     def __init__(self, seed = None):
         self._key = b'\x00' * 32
         if seed is None:
