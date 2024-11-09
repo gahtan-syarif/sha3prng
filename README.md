@@ -5,13 +5,13 @@ This is a Python implementation of a 256-bit counter-based PRNG constructed pure
 
 # Example/Usage
 ```python
-import sha3prng
+from sha3prng import sha3prng
 
 # Initialize PRNG with a random seed.
-prng_instance = sha3prng.prng()
+prng_instance = sha3prng()
 
 # Initialize PRNG with a chosen seed (256-bit integer or bytes object).
-prng_instance = sha3prng.prng(42)
+prng_instance = sha3prng(42)
 
 # Generate a random integer between 1 and 100 (inclusive).
 random_int = prng_instance.randint(1, 100)
